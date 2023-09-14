@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Menu, X, ChevronDown, ChevronRight } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
+import { UserInfoContext } from '../../context/UserInfoContext'
 const menuItems = [
     {
       name: 'Home',
@@ -18,10 +19,12 @@ const menuItems = [
 
 const NavBar = () => {
 
+    const {user} = useContext(UserInfoContext)
+
     const navigate = useNavigate();
 
     const logout = ()=>{
-      localStorage.removeItem('jwt');
+      localStorage.removeItem('token');
       console.log("jdhd")
       navigate('/')
     }
@@ -64,7 +67,7 @@ const NavBar = () => {
           </ul>
         </div>
         <div className="hidden space-x-2 lg:block">
-          {!localStorage.getItem("jwt") &&
+          {!localStorage.getItem("token") &&
           <Link to='/signup'>
           <button
             type="button"
@@ -74,7 +77,7 @@ const NavBar = () => {
           </button>
           </Link>
           }
-          {!localStorage.getItem('jwt') &&
+          {!localStorage.getItem('token') &&
           <Link to='/login'>
           <button
             type="button"
@@ -84,7 +87,10 @@ const NavBar = () => {
           </button>
           </Link>}
           
-          {localStorage.getItem("jwt") &&
+          {localStorage.getItem("token") &&
+          <div>
+          {console.log(user.name)}
+          <span className='mr-4'>{user.name}</span>
           <Link to='/'>
           <button
             type="button" onClick={()=>logout()}
@@ -93,6 +99,7 @@ const NavBar = () => {
             Log Out
           </button>
           </Link>
+          </div>
           }
         </div>
         <div className="lg:hidden">

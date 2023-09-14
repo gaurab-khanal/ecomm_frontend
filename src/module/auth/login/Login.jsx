@@ -1,13 +1,16 @@
-import React, { useEffect, useState} from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import { ArrowRight } from 'lucide-react'
 import { Link, useNavigate} from 'react-router-dom'
 import {object, string, ref} from 'yup';
 import {useFormik} from 'formik';
 import axios from 'axios';
+import { UserInfoContext } from '../../context/UserInfoContext';
 
 const apiURL = import.meta.env.VITE_API_BACKEND;
 
 export function Login() {
+
+  const {UserInfo} = useContext(UserInfoContext)
 
   const navigate = useNavigate();
 
@@ -42,8 +45,9 @@ export function Login() {
         axios.post(`${apiURL}/login`, data)
         .then((res)=>{
             console.log(res.data);
-            localStorage.setItem("jwt", res.data.token);
+            localStorage.setItem("token", res.data.token);
             navigate('/')
+            UserInfo(res.data)
         }).catch(err=>{
             console.log(err.response.data);
             setErrorMessage(err.response.data)
