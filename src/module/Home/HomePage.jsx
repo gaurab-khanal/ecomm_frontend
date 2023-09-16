@@ -1,18 +1,48 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+const apiURL = import.meta.env.VITE_API_BACKEND;
+
+
 
 const HomePage = () => {
+
+  const [allProducts, setAllProducts] = useState([]);
+
+  const getAllProducts  = ()=>{
+ 
+    axios.get(`${apiURL}/products`).then(res=>{
+      console.log(res.data.productsObj);
+      setAllProducts(res.data.productsObj)
+
+    }).catch(err=>{
+        if (err.response && err.response.status === 401) {
+            // Unauthorized access
+            console.log("Unauthorized access: You don't have permission to access this resource.");
+          } else {
+            // Other errors
+            console.log("An error occurred:", err.message);
+          }
+    })
+  }
+
+  useEffect(()=>{
+    getAllProducts();
+  },[])
+
   return (
     <div className="mx-auto grid w-full max-w-7xl items-center space-y-4 px-2 py-10 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-4">
-      {Array.from({ length: 10 }).map((_, i) => (
-        <div key={i} className="rounded-md border">
+      {allProducts.map((product, index) => (
+        <div key={index} className="rounded-md border">
           <img
-            src="https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1372&q=80"
+            src={product.photos[0].secure_url}
             alt="Laptop"
             className="aspect-[16/9] w-full rounded-md md:aspect-auto md:h-[300px] lg:h-[200px]"
           />
           <div className="p-4">
-            <h1 className="inline-flex items-center text-lg font-semibold">Nike Airmax v2</h1>
+            <h1 className="inline-flex items-center text-lg font-semibold">{product.name}</h1>
             <p className="mt-3 text-sm text-gray-600">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi, debitis?
+            {product.description}
             </p>
     
             
@@ -31,7 +61,7 @@ const HomePage = () => {
             <div className="mt-5 flex items-center space-x-2">
               <span className="block text-sm font-semibold">Prize : </span>
               <span className="block cursor-pointer rounded-md border border-gray-300 p-1 px-2 text-xs font-medium">
-               Rs 1000
+              {product.price}
               </span>
               
             </div>

@@ -4,12 +4,19 @@ import { ArrowRight } from 'lucide-react'
 import {useFormik} from 'formik';
 import {object, string, ref} from 'yup';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const apiURL = import.meta.env.VITE_API_BACKEND;
 
-export function Signup() {
+export function Signup({setShowModel = undefined}) {
 
     const [errorMessage, setErrorMessage] = useState('');
+
+    // for admin add user
+    const addSuccess = ()=>{
+      return toast.success("User Added Successfully")
+    }
 
     let signUpSchema = object().shape({
         name: string().min(2, "Too Short").max(60, "Too Long").required(),
@@ -42,7 +49,10 @@ export function Signup() {
         console.log(apiURL);
         axios.post(`${apiURL}/signup`, data).then(res=>{
             console.log(res.data);
-            
+            if(setShowModel){
+              setShowModel(false)
+              addSuccess();
+            }
         }).catch(err=>{
             console.log(err);
             setErrorMessage(err.response.data);

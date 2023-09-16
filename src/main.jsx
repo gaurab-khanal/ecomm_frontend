@@ -12,6 +12,10 @@ import { ResetPassword } from './module/auth/forgetPassword/ResetPassword.jsx';
 import HandleSignUpLogin from './module/route/HandleSignUpLogin.jsx';
 import UserInfoProvider from './module/context/UserInfoProvider.jsx';
 import PrivateRoute from './module/route/PrivateRoute.jsx';
+import Dashboard from './module/admin/Dashboard/Dashboard.jsx';
+import Users from './module/admin//Dashboard/Users/Users.jsx';
+import UserDetails from './module/admin/Dashboard/Users/UserDetails.jsx';
+
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
@@ -20,6 +24,11 @@ const router = createBrowserRouter(
       <Route path='login' element={<HandleSignUpLogin><Login/></HandleSignUpLogin>}/>
       <Route path='forgetpassword' element={<ForgetPassword/>}/>
       <Route path='resetpassword/:token' element={<ResetPassword/>}/>
+      <Route path='admin' element={<Dashboard/>}>
+        <Route path='dashboard' element={<HomePage/>}></Route>
+        <Route path='users' element={<Users/>}></Route>
+        <Route path='user/details' element={<UserDetails/>}></Route>
+      </Route>
     </Route>
   )
 )
