@@ -19,12 +19,12 @@ function Products() {
 
 
     const deleteSuccess = ()=>{
-      return toast.success("User Deleted Successfully")
+      return toast.success("Product Deleted Successfully")
     }
     
     const deleteFailure = ()=>{
       console.log("Hiii")
-      return toast.error("Admin cannot be deleted")
+      return toast.error("Error in deleting product")
     }
 
     const navigate = useNavigate();
@@ -81,7 +81,7 @@ function Products() {
        
 
     }).catch(err=>{
-        if (err.response && err.response.status === 401) {
+        if (err.response && err.response.price === 401) {
             // Unauthorized access
             console.log("Unauthorized access: You don't have permission to access this resource.");
           } else {
@@ -112,7 +112,7 @@ function Products() {
       setShowModel(false)
       setTrackDelete(!trackDelete);    
     }).catch(err=>{
-        if (err.response && err.response.status === 401) {
+        if (err.response && err.response.price === 401) {
             // Unauthorized access
             console.log("Unauthorized access: You don't have permission to access this resource.");
           } else {
@@ -137,7 +137,7 @@ function Products() {
           
     
         }).catch(err=>{
-            if (err.response && err.response.status === 401) {
+            if (err.response && err.response.price === 401) {
                 // Unauthorized access
                 console.log("Unauthorized access: You don't have permission to access this resource.");
               } else {
@@ -186,21 +186,33 @@ function Products() {
                         scope="col"
                         className="px-20 py-3.5 text-left text-sm font-normal text-gray-700"
                       >
-                        <span>User</span>
+                        <span>Product Name</span>
                       </th>
 
                       <th
                         scope="col"
                         className="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
                       >
-                        <span>Status</span>
+                        <span>Price</span>
                       </th>
 
                       <th
                         scope="col"
                         className="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
                       >
-                        <span>Role</span>
+                        <span>Stock</span>
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
+                      >
+                        <span>Category</span>
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-4 py-3.5 text-left text-sm font-normal text-gray-700"
+                      >
+                        <span>Description</span>
                       </th>
                       <th
                         scope="col"
@@ -221,29 +233,27 @@ function Products() {
 
                         <td className="whitespace-nowrap px-4 py-4 cursor-pointer " onClick={()=> {getAdminOneUser(person._id);  navigate('/admin/user/details')  }}>
                           <div className="flex items-center">
-                            <div className="h-10 w-10 flex-shrink-0 ">
-                            {person.photo?.secure_url? <img 
-                                className="h-10 w-10 rounded-full object-cover"
-                                src={person.photo?.secure_url }                                
-                                alt=""
-                              /> : <User className="h-5 w-5" aria-hidden="true" />  }
-                           
-                            </div>
                             <div className="ml-4">
                               <div className="text-sm font-medium text-gray-900">{person.name}</div>
-                              <div className="text-sm text-gray-700">{person.email}</div>
+                              <div className="text-base font-bold text-gray-700">{person.brand}</div>
                             </div>
                           </div>
                         </td>
 
                         <td className="whitespace-nowrap px-4 py-4">
                           <span className="inline-flex rounded-full bg-green-100 px-2 text-xs font-semibold leading-5 text-green-800">
-                            Active
+                            Rs {person.price}
                           </span>
                         </td>
 
                         <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
-                          {person.role}
+                          {person.stock}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
+                          {person.category}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-4 text-sm text-gray-700">
+                          {person.description}
                         </td>
 
                         <td className="whitespace-nowrap px-4 py-4 text text-sm font-medium">

@@ -16,7 +16,7 @@ export function EditProduct({ product, setShowModel, productId, setTrackUpdate }
   const [errorMessage, setErrorMessage] = useState('');
 
   const editSuccess = () => {
-    return toast.success("User Updated Successfully")
+    return toast.success("Product Updated Successfully")
   }
 
   const adminEditOneProduct = (id, data) => {
@@ -268,7 +268,7 @@ export function EditProduct({ product, setShowModel, productId, setTrackUpdate }
                   type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
-                  Update User <ArrowRight className="ml-2" size={16} />
+                  Update Product <ArrowRight className="ml-2" size={16} />
                 </button>
               </div>
             </div>
