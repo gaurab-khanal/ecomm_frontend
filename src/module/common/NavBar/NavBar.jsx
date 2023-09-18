@@ -56,8 +56,10 @@ const NavBar = () => {
         <div className="hidden grow items-start lg:flex">
           <ul className="ml-12 inline-flex space-x-8">
             {menuItems.map((item) => (
+            
               <li key={item.name}>
-                <Link
+              {item.name != "Dashboard"? 
+              <Link
                   to={item.href}
                   className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
                 >
@@ -65,6 +67,17 @@ const NavBar = () => {
                   
                   
                 </Link>
+              : user.role === 'admin'? 
+              <Link
+                  to={item.href}
+                  className="inline-flex items-center text-sm font-semibold text-gray-800 hover:text-gray-900"
+                >
+                  {item.name} 
+                  
+                  
+                </Link>
+              : ''}
+               
               </li>
             ))}
           </ul>
