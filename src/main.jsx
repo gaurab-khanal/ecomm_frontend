@@ -15,6 +15,7 @@ import PrivateRoute from './module/route/PrivateRoute.jsx';
 import Dashboard from './module/admin/Dashboard/Dashboard.jsx';
 import Users from './module/admin//Dashboard/Users/Users.jsx';
 import UserDetails from './module/admin/Dashboard/Users/UserDetails.jsx';
+import Products from './module/admin/Dashboard/Products/Products.jsx';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,6 +29,7 @@ const router = createBrowserRouter(
         <Route path='dashboard' element={<HomePage/>}></Route>
         <Route path='users' element={<Users/>}></Route>
         <Route path='user/details' element={<UserDetails/>}></Route>
+        <Route path='products' element={<Products/>}></Route>
       </Route>
     </Route>
   )

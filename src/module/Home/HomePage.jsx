@@ -37,7 +37,7 @@ const HomePage = () => {
           <img
             src={product.photos[0].secure_url}
             alt="Laptop"
-            className="aspect-[16/9] w-full rounded-md md:aspect-auto md:h-[300px] lg:h-[200px]"
+            className="aspect-[16/9] w-full rounded-md md:aspect-auto md:h-[300px] lg:h-[300px]"
           />
           <div className="p-4">
             <h1 className="inline-flex items-center text-lg font-semibold">{product.name}</h1>
@@ -61,7 +61,7 @@ const HomePage = () => {
             <div className="mt-5 flex items-center space-x-2">
               <span className="block text-sm font-semibold">Prize : </span>
               <span className="block cursor-pointer rounded-md border border-gray-300 p-1 px-2 text-xs font-medium">
-              {product.price}
+               RS {product.price}
               </span>
               
             </div>
