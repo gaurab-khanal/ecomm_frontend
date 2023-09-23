@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
+import { OrderItemsContext } from "../context/OrderItemsContext";
+
 
 const apiURL = import.meta.env.VITE_API_BACKEND;
 
@@ -8,6 +10,7 @@ const apiURL = import.meta.env.VITE_API_BACKEND;
 const HomePage = () => {
 
   const [allProducts, setAllProducts] = useState([]);
+  const { addToCart} = useContext(OrderItemsContext);
 
   const getAllProducts  = ()=>{
  
@@ -29,6 +32,17 @@ const HomePage = () => {
   useEffect(()=>{
     getAllProducts();
   },[])
+
+  const handleCart = (product)=>{
+    const neccesaryDetails = {
+      name: product.name,
+      quantity: 1,
+      image: product.photos[0].secure_url,
+      price: product.price,
+      product: product._id
+    }
+    addToCart(neccesaryDetails);
+  }
 
   return (
     <div className="mx-auto grid w-full max-w-7xl items-center space-y-4 px-2 py-10 md:grid-cols-2 md:gap-6 md:space-y-0 lg:grid-cols-4">
@@ -68,6 +82,7 @@ const HomePage = () => {
             <button
               type="button"
               className="mt-4 w-full rounded-sm bg-black px-2 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              onClick={()=>handleCart(product)}
             >
               Add to Cart
             </button>

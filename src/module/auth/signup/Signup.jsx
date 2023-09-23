@@ -1,63 +1,85 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react'
-import {useFormik} from 'formik';
-import {object, string, ref} from 'yup';
+import { useFormik } from 'formik';
+import { object, string, ref, mixed } from 'yup';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 const apiURL = import.meta.env.VITE_API_BACKEND;
 
-export function Signup({setShowModel = undefined}) {
+export function Signup({ setShowModel = undefined }) {
 
-    const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
 
-    // for admin add user
-    const addSuccess = ()=>{
-      return toast.success("User Added Successfully")
+  // for admin add user
+  const addSuccess = () => {
+    return toast.success("User Added Successfully")
+  }
+  const Success = () => {
+    return toast.success("User Signup Successfully")
+  }
+
+  let signUpSchema = object().shape({
+    name: string().min(2, "Too Short").max(60, "Too Long").required(),
+    email: string().email("Invalid Email").required("Required"),
+    password: string().min(6, "At leat 6 characters required").required("Password is required"),
+    confirmPassword: string().oneOf([ref('password'), null], 'Password must match').required("Confirm Password is required"),
+    photo: mixed()
+      .test('required', 'Photo is required', (value) => !!value),
+  })
+
+  const formik = useFormik({
+    validationSchema: signUpSchema,
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      photo: ''
+    },
+    onSubmit: (data) => {
+
+      const formData = new FormData();
+
+     if(data.photo){
+      formData.append('photo', data.photo)
+     }
+
+      formData.append('name', data.name);
+      formData.append('email', data.email);
+      formData.append('password', data.password);
+      formData.append('confirmPassword', data.confirmPassword);
+
+
+      signUpApiCall(formData);
     }
+  })
 
-    let signUpSchema = object().shape({
-        name: string().min(2, "Too Short").max(60, "Too Long").required(),
-        email: string().email("Invalid Email").required("Required"),
-        password: string().min(6,"At leat 6 characters required").required("Password is required"),
-        confirmPassword: string().oneOf([ref('password'), null], 'Password must match').required("Confirm Password is required")
+  const { errors, getFieldProps } = formik;
+
+  useEffect(() => {
+    console.log(errors)
+  }, [errors])
+
+  const signUpApiCall = (data) => {
+    console.log(apiURL);
+    axios.post(`${apiURL}/signup`, data).then(res => {
+      console.log(res.data);
+      if (setShowModel) {
+        setShowModel(false)
+        addSuccess();
+      } else {
+        Success()
+        navigate('/login')
+      }
+    }).catch(err => {
+      console.log(err);
+      setErrorMessage(err.response.data);
     })
-
-    const formik = useFormik({
-        validationSchema: signUpSchema,
-        initialValues: {
-            name:'',
-            email:'',
-            password:'',
-            confirmPassword:'',
-        },
-        onSubmit: (data)=>{
-            console.log(data);
-            signUpApiCall(data);
-        }
-    })
-
-    const {errors, getFieldProps} = formik;
-
-    useEffect(()=>{
-        console.log(errors)
-    }, [errors])
-
-    const signUpApiCall = (data)=>{
-        console.log(apiURL);
-        axios.post(`${apiURL}/signup`, data).then(res=>{
-            console.log(res.data);
-            if(setShowModel){
-              setShowModel(false)
-              addSuccess();
-            }
-        }).catch(err=>{
-            console.log(err);
-            setErrorMessage(err.response.data);
-        })
-    }
+  }
 
   return (
     <section>
@@ -92,8 +114,8 @@ export function Signup({setShowModel = undefined}) {
 
           {errorMessage && (
             <p className="mt-2 text-center text-base text-red-600">
-              {errorMessage } {' '}
-          </p>
+              {errorMessage} {' '}
+            </p>
           )}
           <form noValidate onSubmit={formik.handleSubmit} className="mt-8">
             <div className="space-y-5">
@@ -112,10 +134,10 @@ export function Signup({setShowModel = undefined}) {
                   ></input>
                 </div>
                 <div>
-                    {
-                        errors.name &&
-                        <label className="text-sm font-medium text-red-900">{errors.name}</label>
-                    }
+                  {
+                    errors.name &&
+                    <label className="text-sm font-medium text-red-900">{errors.name}</label>
+                  }
                 </div>
               </div>
               <div>
@@ -130,14 +152,14 @@ export function Signup({setShowModel = undefined}) {
                     placeholder="Email"
                     id="email"
                     {...getFieldProps('email')}
-                    // onChange={()=>setErrorMessage('')}
-                  ></input> 
+                  // onChange={()=>setErrorMessage('')}
+                  ></input>
                 </div>
                 <div>
-                    {
-                        errors.email &&
-                        <label className="text-sm font-medium text-red-900">{errors.email}</label>
-                    }
+                  {
+                    errors.email &&
+                    <label className="text-sm font-medium text-red-900">{errors.email}</label>
+                  }
                 </div>
               </div>
               <div>
@@ -157,10 +179,10 @@ export function Signup({setShowModel = undefined}) {
                   ></input>
                 </div>
                 <div>
-                    {
-                        errors.password &&
-                        <label className="text-sm font-medium text-red-900">{errors.password}</label>
-                    }
+                  {
+                    errors.password &&
+                    <label className="text-sm font-medium text-red-900">{errors.password}</label>
+                  }
                 </div>
               </div>
               <div>
@@ -180,11 +202,33 @@ export function Signup({setShowModel = undefined}) {
                   ></input>
                 </div>
                 <div>
-                    {
-                        errors.confirmPassword &&
-                        <label className="text-sm font-medium text-red-900">{errors.confirmPassword}</label>
-                    }
+                  {
+                    errors.confirmPassword &&
+                    <label className="text-sm font-medium text-red-900">{errors.confirmPassword}</label>
+                  }
                 </div>
+
+              </div>
+              <div>
+                <label htmlFor="brand" className="text-base font-medium text-gray-900">
+                  {' '}
+                  Photo{' '}
+                  <div className='mt-2'>
+                    <input
+                      className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-400 focus:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-50"
+                      type="file"
+                      placeholder="Photo"
+                      id="photo"
+                      onChange={(e) => {
+                        const file = e.currentTarget.files[0]; // Convert the FileList to an array
+                        formik.setFieldValue('photo', file);
+                      }}
+                    ></input>
+                  </div>
+                </label>
+                {errors.photo && (
+                  <label className="text-sm font-medium text-red-900">{errors.photo}</label>
+                )}
               </div>
               <div>
                 <button
@@ -196,7 +240,7 @@ export function Signup({setShowModel = undefined}) {
               </div>
             </div>
           </form>
-    
+
         </div>
       </div>
     </section>

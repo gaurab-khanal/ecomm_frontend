@@ -16,6 +16,10 @@ import Dashboard from './module/admin/Dashboard/Dashboard.jsx';
 import Users from './module/admin//Dashboard/Users/Users.jsx';
 import UserDetails from './module/admin/Dashboard/Users/UserDetails.jsx';
 import Products from './module/admin/Dashboard/Products/Products.jsx';
+import AdminRoute from './module/route/AdminRoute.jsx';
+import { Cart } from './module/user/Cart/Cart.jsx';
+import OrderItemsProvider from './module/context/OrderItemsProvider.jsx';
+
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,7 +29,10 @@ const router = createBrowserRouter(
       <Route path='login' element={<HandleSignUpLogin><Login/></HandleSignUpLogin>}/>
       <Route path='forgetpassword' element={<ForgetPassword/>}/>
       <Route path='resetpassword/:token' element={<ResetPassword/>}/>
-      <Route path='admin' element={<Dashboard/>}>
+      <Route path='user'>
+        <Route path='cart' element={<Cart/>}/>
+      </Route>
+      <Route path='admin' element={<AdminRoute><Dashboard/></AdminRoute>}>
         <Route path='dashboard' element={<HomePage/>}></Route>
         <Route path='users' element={<Users/>}></Route>
         <Route path='user/details' element={<UserDetails/>}></Route>
@@ -40,9 +47,11 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <React.StrictMode>
+    <OrderItemsProvider>
    <UserInfoProvider>
 
    <RouterProvider router={router}/>
    </UserInfoProvider>
+   </OrderItemsProvider>
   </React.StrictMode>,
 )

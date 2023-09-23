@@ -25,6 +25,7 @@ const NavBar = () => {
 
     const {user} = useContext(UserInfoContext)
 
+    
 
     const navigate = useNavigate();
 
