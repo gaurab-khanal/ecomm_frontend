@@ -11,7 +11,6 @@ import { ForgetPassword } from './module/auth/forgetPassword/Forgetpassword.jsx'
 import { ResetPassword } from './module/auth/forgetPassword/ResetPassword.jsx';
 import HandleSignUpLogin from './module/route/HandleSignUpLogin.jsx';
 import UserInfoProvider from './module/context/UserInfoProvider.jsx';
-import PrivateRoute from './module/route/PrivateRoute.jsx';
 import Dashboard from './module/admin/Dashboard/Dashboard.jsx';
 import Users from './module/admin//Dashboard/Users/Users.jsx';
 import UserDetails from './module/admin/Dashboard/Users/UserDetails.jsx';
@@ -19,6 +18,9 @@ import Products from './module/admin/Dashboard/Products/Products.jsx';
 import AdminRoute from './module/route/AdminRoute.jsx';
 import { Cart } from './module/user/Cart/Cart.jsx';
 import OrderItemsProvider from './module/context/OrderItemsProvider.jsx';
+import {Order} from './module/user/Orders/Order.jsx'
+import { OrderFromBackendProvider } from './module/context/OrderFromBackendProvider.jsx';
+
 
 
 const router = createBrowserRouter(
@@ -31,6 +33,7 @@ const router = createBrowserRouter(
       <Route path='resetpassword/:token' element={<ResetPassword/>}/>
       <Route path='user'>
         <Route path='cart' element={<Cart/>}/>
+        <Route path='orders' element={<Order/>}/>
       </Route>
       <Route path='admin' element={<AdminRoute><Dashboard/></AdminRoute>}>
         <Route path='dashboard' element={<HomePage/>}></Route>
@@ -47,11 +50,12 @@ const router = createBrowserRouter(
 ReactDOM.createRoot(document.getElementById('root')).render(
 
   <React.StrictMode>
+  <OrderFromBackendProvider>
     <OrderItemsProvider>
    <UserInfoProvider>
-
    <RouterProvider router={router}/>
    </UserInfoProvider>
    </OrderItemsProvider>
+   </OrderFromBackendProvider>
   </React.StrictMode>,
 )

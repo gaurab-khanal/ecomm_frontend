@@ -1,8 +1,6 @@
 import {useState, useEffect} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios';
-import {  User } from 'lucide-react'
-import { Signup } from './../../../auth/signup/Signup';
 import Model from '../../../common/Model/Model';
 
 import { ToastContainer, toast } from 'react-toastify';

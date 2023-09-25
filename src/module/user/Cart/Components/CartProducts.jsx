@@ -1,10 +1,21 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { Heart, Trash } from 'lucide-react'
 import { OrderItemsContext } from '../../../context/OrderItemsContext'
 
-const CartProducts = ({product, quantity}) => {
+const CartProducts = ({product}) => {
 
-  const {removeFromCart} = useContext(OrderItemsContext)
+  const {removeFromCart, addToCart} = useContext(OrderItemsContext);
+
+  const [updateQuantity, setUpdateQuantity] = useState(product.quantity || 1);
+  
+  const add_quantity = (newQuantity)=>{
+    if(newQuantity>0){
+      product.quantity = newQuantity;
+      setUpdateQuantity(product.quantity);
+      addToCart(product)
+
+    }
+  }
 
   return (
 
@@ -24,24 +35,13 @@ const CartProducts = ({product, quantity}) => {
                           <div className="flex justify-between">
                             <h3 className="text-sm">
                               <a href={product.href} className="font-semibold text-black">
-                                {product.name}
+                                {product.name} 
                               </a>
                             </h3>
                           </div>
-                          <div className="mt-1 flex text-sm">
-                            <p className="text-sm text-gray-500">{product.color}</p>
-                            {product.size ? (
-                              <p className="ml-4 border-l border-gray-200 pl-4 text-sm text-gray-500">
-                                {product.size}
-                              </p>
-                            ) : null}
-                          </div>
                           <div className="mt-1 flex items-end">
-                            <p className="text-xs font-medium text-gray-500 line-through">
-                              {product.originalPrice}
-                            </p>
                             <p className="text-sm font-medium text-gray-900">
-                              &nbsp;&nbsp;{product.price}
+                              &nbsp;&nbsp;Rs {product.price}
                             </p>
                             &nbsp;&nbsp;
                             <p className="text-sm font-medium text-green-500">{product.discount}</p>
@@ -52,16 +52,16 @@ const CartProducts = ({product, quantity}) => {
                   </li>
                   <div className="mb-2 flex">
                     <div className="min-w-24 flex">
-                      <button type="button" className="h-7 w-7">
+                      <button type="button"  onClick={()=>{add_quantity(product.quantity-1)}} className="h-7 w-7">
                         -
                       </button>
                       <input
                         type="text"
                         className="mx-1 h-7 w-9 rounded-md border text-center"
-                        value={quantity}
+                        value={updateQuantity}
                       />
-                      <button type="button" className="flex h-7 w-7 items-center justify-center">
-                        +
+                      <button type="button" onClick={()=>{add_quantity(product.quantity+1)}} className="flex h-7 w-7 items-center justify-center">
+                        + 
                       </button>
                     </div>
                     <div className="ml-6 flex text-sm">
