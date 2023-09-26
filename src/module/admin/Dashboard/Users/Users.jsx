@@ -4,7 +4,7 @@ import axios from 'axios';
 import {  User } from 'lucide-react'
 import { Signup } from './../../../auth/signup/Signup';
 import Model from '../../../common/Model/Model';
-import { EditUser } from './Components/editUser';
+import { EditUser } from './Components/EditUser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
