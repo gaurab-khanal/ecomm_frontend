@@ -1,22 +1,15 @@
-import { Heart, Trash } from 'lucide-react'
-import React, { useContext, useEffect, useState } from 'react'
 
+import  { useContext} from 'react'
 import CartProducts from './Components/CartProducts';
 import { OrderItemsContext } from '../../context/OrderItemsContext';
-import ShippingInfo from './ShippingInfo';
-import Model from '../../common/Model/Model';
+import { useNavigate } from 'react-router-dom';
+
 
 
 export function Cart() {
   const { orders, totalAmount} = useContext(OrderItemsContext);
 
-  const [showModel, setShowModel] = useState(false);
-    const [modalType, setModalType] = useState('');
-
-    const addAction= ()=>{
-      setShowModel(true)
-      setModalType('add')
-    }
+  const navigate = useNavigate();
 
   return (
     <div className="mx-auto max-w-7xl px-2 lg:px-0">
@@ -30,7 +23,7 @@ export function Cart() {
               Items in your shopping cart
             </h2>
             <ul role="list" className="divide-y divide-gray-200">
-              {orders.map((product, productIdx) => (
+              {orders.map((product) => (
                 <CartProducts product={product} key={product.product} />
               ))}
             </ul>
@@ -65,7 +58,7 @@ export function Cart() {
               </dl>
               <button
                 type="button"
-                onClick={addAction}
+                onClick={()=>navigate('/user/shippingInfo')}
                 className="rounded-md border border-black px-3 py-2 text-sm font-semibold text-black shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
               >
                 Checkout
@@ -74,11 +67,6 @@ export function Cart() {
           </section>
         </form>
       </div>
-      {showModel && modalType === 'add' &&
-      <Model show={showModel} setShowModel={setShowModel}>
-               <ShippingInfo setShowModel={setShowModel}/> 
-      </Model>
-      }
     </div>
   );
 }

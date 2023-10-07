@@ -1,6 +1,6 @@
 // ShippingInfo.js
 
-import React, { useContext, useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import axios from 'axios';
@@ -22,11 +22,12 @@ const shippingInfoSchema = object().shape({
 
 const apiURL = import.meta.env.VITE_API_BACKEND;
 
-const ShippingInfo = ({ setShowModel = undefined }) => {
+
+const ShippingInfo = () => {
 
     const { setShippingInfo, orderSuccess } = useContext(OrderItemsContext);
 
-    const {getMyOrders} = useContext(OrderFromBackend)
+    const { getMyOrders } = useContext(OrderFromBackend)
 
     const initialValues = JSON.parse(localStorage.getItem('shippingInfo')) || {};
 
@@ -34,16 +35,16 @@ const ShippingInfo = ({ setShowModel = undefined }) => {
         initialValues,
         validationSchema: shippingInfoSchema,
         onSubmit: (data) => {
-           
+
             setShippingInfo(data);
             localStorage.setItem('shippingInfo', JSON.stringify(data));
             handleOrder();
-            
+
         },
     });
-    const orderSuccessMessage = ()=>{
+    const orderSuccessMessage = () => {
         return toast.success("Order Placed Successfully")
-      }
+    }
 
     const { errors, getFieldProps } = formik;
 
@@ -51,26 +52,57 @@ const ShippingInfo = ({ setShowModel = undefined }) => {
         console.log(errors)
     }, [errors])
 
-    const handleOrder = ()=>{
-        let token = localStorage.getItem('token');
-    const headers = {
-      "Authorization": `Bearer ${token}`,
-      'Content-Type': "application/json"
+
+    const esewaCall = (order) => {
+        var path = "https://uat.esewa.com.np/epay/main";
+        var params = {
+            amt: order.totalAmount,
+            psc: 0,
+            pdc: 0,
+            txAmt: 0,
+            tAmt: order.totalAmount,
+            pid: order._id,
+            scd: "EPAYTEST",
+            su: "http://localhost:5173/users/esewa_payment_success",
+            fu: "http://localhost:5173/users/esewa_payment_failed"
+        }
+
+        console.log(params);
+
+        var form = document.createElement("form");
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", path);
+
+        for (var key in params) {
+            var hiddenField = document.createElement("input");
+            hiddenField.setAttribute("type", "hidden");
+            hiddenField.setAttribute("name", key);
+            hiddenField.setAttribute("value", params[key]);
+            form.appendChild(hiddenField);
+        }
+
+        document.body.appendChild(form);
+        form.submit();
     }
+
+    const handleOrder = () => {
+        let token = localStorage.getItem('token');
+        const headers = {
+            "Authorization": `Bearer ${token}`,
+            'Content-Type': "application/json"
+        }
         const data = JSON.parse(localStorage.getItem('orderInfo'));
-        axios.post(`${apiURL}/order/create`, data, {headers})
-        .then((res)=>{
-            console.log(res.data);
-            localStorage.removeItem("cart");
-            orderSuccess()
-            orderSuccessMessage()
-            getMyOrders();
-            setTimeout(() => {
-                setShowModel(false);
-            }, 2000);
-        }).catch(err=>{
-            console.log(err);
-        })
+        axios.post(`${apiURL}/order/create`, data, { headers })
+            .then((res) => {
+                esewaCall(res.data.order)
+                console.log(res.data);
+                localStorage.removeItem("cart");
+                orderSuccess()
+                orderSuccessMessage()
+                getMyOrders();
+            }).catch(err => {
+                console.log(err);
+            })
     }
 
     return (
@@ -80,11 +112,8 @@ const ShippingInfo = ({ setShowModel = undefined }) => {
                     <div className="mb-2 flex justify-center">
                     </div>
                     <h1 className="text-center text-3xl font-bold leading-tight text-black">
-                        Payment
+                        ShippingInfo
                     </h1>
-                    <h2 className="text-left mt-3 text-1xl font-bold leading-tight text-black">
-                        Additional Information
-                    </h2>
                     <form noValidate onSubmit={formik.handleSubmit} className="mt-8">
                         <div className="space-y-5">
                             <div>
@@ -222,7 +251,7 @@ const ShippingInfo = ({ setShowModel = undefined }) => {
                                     type="submit"
                                     className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                                 >
-                                   Proceed to Order
+                                    Checkout and Paywith Esewa
                                 </button>
                             </div>
                         </div>
@@ -230,7 +259,7 @@ const ShippingInfo = ({ setShowModel = undefined }) => {
 
                 </div>
             </div>
-            <ToastContainer position="top-center" autoClose={1000}/>
+            <ToastContainer position="top-center" autoClose={1000} />
         </section>
     )
 };
