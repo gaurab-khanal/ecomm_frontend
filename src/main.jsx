@@ -20,6 +20,9 @@ import { Cart } from './module/user/Cart/Cart.jsx';
 import OrderItemsProvider from './module/context/OrderItemsProvider.jsx';
 import {Order} from './module/user/Orders/Order.jsx'
 import { OrderFromBackendProvider } from './module/context/OrderFromBackendProvider.jsx';
+import ShippingInfo from './module/user/Cart/ShippingInfo';
+import EsewaSuccess from './module/user/Cart/esewa/EsewaSuccess.jsx';
+
 
 
 
@@ -31,9 +34,11 @@ const router = createBrowserRouter(
       <Route path='login' element={<HandleSignUpLogin><Login/></HandleSignUpLogin>}/>
       <Route path='forgetpassword' element={<ForgetPassword/>}/>
       <Route path='resetpassword/:token' element={<ResetPassword/>}/>
-      <Route path='user'>
+      <Route path='users'>
         <Route path='cart' element={<Cart/>}/>
         <Route path='orders' element={<Order/>}/>
+        <Route path='shippingInfo' element={<ShippingInfo/>}/>
+        <Route path='esewa_payment_success' element={<EsewaSuccess/>}/>
       </Route>
       <Route path='admin' element={<AdminRoute><Dashboard/></AdminRoute>}>
         <Route path='dashboard' element={<HomePage/>}></Route>

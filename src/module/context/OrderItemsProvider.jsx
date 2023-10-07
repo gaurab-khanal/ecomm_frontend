@@ -21,9 +21,7 @@ export const OrderItemsProvider = ({ children }) => {
 
   const [orderInfo, setOrderInfo] = useState({
     shippingInfo: shippingInfo,
-    paymentInfo: {
-      id: '',
-    },
+    payment_method: "esewa",
     taxAmount: 0,
     shippingAmount: 0,
     totalAmount: 0,
