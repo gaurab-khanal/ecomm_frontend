@@ -113,14 +113,14 @@ const NavBar = () => {
           {localStorage.getItem("token") &&
             <div className='flex items-center'>
               <span className='mr-4'>{user.name}</span>
-              <span className='cursor-pointer' onClick={()=>navigate('/user/cart')}>
+              <span className='cursor-pointer' onClick={()=>navigate('/users/cart')}>
                 <span className='text-xs px-3 mr-4 bg-red-200 text-red-800 rounded-full'>
                 {orders.length}
                 </span>
                 <ShoppingCart/>
 
               </span>
-              <span className='cursor-pointer' onClick={()=>navigate('/user/orders')}>
+              <span className='cursor-pointer' onClick={()=>navigate('/users/orders')}>
                 <span className='text-xs px-3 mr-4 bg-red-200 text-red-800 rounded-full'>
                 {totalOrder}
                 </span>

@@ -1,16 +1,59 @@
-import React from 'react'
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import OrderCart from './OrderCart';
 
-const OrderCart = ({id, createdAt, totalAmount, orderStatus, orderItems}) => {
-  return (
-    <div className="mt-8 flex flex-col overflow-hidden rounded-lg border border-gray-300 md:flex-row">
+
+export default function OrderDetails() {
+    const { orderId } = useParams();
+
+    const [orderDetails, setOrderDetails] = useState([]);
+    const [orderItems, setOrderItems] = useState([]);
+
+    
+
+    const apiURL = import.meta.env.VITE_API_BACKEND;
+
+
+    let token = localStorage.getItem('token');
+    const headers = {
+        "Authorization": `Bearer ${token}`,
+        'Content-Type': 'multipart/form-data'
+    }
+
+    const getOrderDetail = async () => {
+        await axios.get(`${apiURL}/order/${orderId}`, { headers })
+            .then(res => {
+                console.log(res.data.order);
+                setOrderDetails(res.data.order);
+                console.log(orderDetails)
+                const {orderItems} = res.data.order; 
+                setOrderItems(orderItems)
+            }).catch(err => {
+                console.log(err)
+            })
+    }
+
+    useEffect(() => {
+        getOrderDetail();
+
+    }, [])
+
+    return (
+        <><div className="mx-auto my-4 max-w-6xl px-2 md:my-6 md:px-0">
+        <h2 className="text-3xl font-bold">Order Details</h2>
+        <div className="mt-3 font-bold text-sm">
+          Order Placed Successfully
+        </div>
+            <div className="mt-8 flex flex-col overflow-hidden rounded-lg border border-gray-300 md:flex-row">
         <div className="w-full border-r border-gray-300 bg-gray-100 md:max-w-xs">
           <div className="p-8">
             <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-1">
               {[
-                ['Order ID', id],
-                ['Date', createdAt?.split("T")[0]],
-                ['Total Amount', `Rs ${totalAmount}`],
-                ['Order Status', orderStatus],
+                ['Order ID', orderDetails._id],
+                ['Date', orderDetails.createdAt?.split("T")[0]],
+                ['Total Amount', `Rs ${orderDetails.totalAmount}`],
+                ['Order Status', orderDetails.orderStatus],
               ].map(([key, value]) => (
                 <div key={key} className="mb-4">
                   <div className="text-sm font-semibold">{key}</div>
@@ -57,7 +100,8 @@ const OrderCart = ({id, createdAt, totalAmount, orderStatus, orderItems}) => {
           </div>
         </div>
       </div>
-  )
-}
+</div>
+        </>
 
-export default OrderCart
+    )
+}

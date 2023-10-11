@@ -9,16 +9,11 @@ import { OrderFromBackend } from '../../context/OrderFromBackendContext';
 
 
 
-export const Order = () => {
+const Order = () => {
   
   
   
   const {getOrderInfo, getAllOrder} = useContext(OrderFromBackend)
-  
- 
-  
-
-
 
 
 
@@ -42,3 +37,5 @@ export const Order = () => {
     </div>
   )
 }
+
+export default Order;

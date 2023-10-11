@@ -5,8 +5,6 @@ import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import axios from 'axios';
 import { OrderItemsContext } from '../../context/OrderItemsContext';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { OrderFromBackend } from '../../context/OrderFromBackendContext';
 
 const shippingInfoSchema = object().shape({
@@ -42,9 +40,6 @@ const ShippingInfo = () => {
 
         },
     });
-    const orderSuccessMessage = () => {
-        return toast.success("Order Placed Successfully")
-    }
 
     const { errors, getFieldProps } = formik;
 
@@ -66,7 +61,7 @@ const ShippingInfo = () => {
             su: "http://localhost:5173/users/esewa_payment_success",
             fu: "http://localhost:5173/users/esewa_payment_failed"
         }
-
+        
         console.log(params);
 
         var form = document.createElement("form");
@@ -98,7 +93,6 @@ const ShippingInfo = () => {
                 console.log(res.data);
                 localStorage.removeItem("cart");
                 orderSuccess()
-                orderSuccessMessage()
                 getMyOrders();
             }).catch(err => {
                 console.log(err);
@@ -259,7 +253,6 @@ const ShippingInfo = () => {
 
                 </div>
             </div>
-            <ToastContainer position="top-center" autoClose={1000} />
         </section>
     )
 };
