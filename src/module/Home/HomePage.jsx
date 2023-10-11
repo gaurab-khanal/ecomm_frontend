@@ -1,7 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { OrderItemsContext } from "../context/OrderItemsContext";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const apiURL = import.meta.env.VITE_API_BACKEND;
 
@@ -11,6 +12,7 @@ const HomePage = () => {
 
   const [allProducts, setAllProducts] = useState([]);
   const { addToCart} = useContext(OrderItemsContext);
+  const token = localStorage.getItem('token');
 
   const getAllProducts  = ()=>{
  
@@ -34,6 +36,9 @@ const HomePage = () => {
   },[])
 
   const handleCart = (product)=>{
+    if (!token){
+      return toast.error("Login to access this feature");
+    }
     const neccesaryDetails = {
       name: product.name,
       quantity: 1,
@@ -87,6 +92,18 @@ const HomePage = () => {
               Add to Cart
             </button>
           </div>
+          <ToastContainer
+position="bottom-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+/>
         </div>
       ))}
     </div>
