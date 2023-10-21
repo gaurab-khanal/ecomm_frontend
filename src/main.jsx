@@ -24,6 +24,8 @@ import ShippingInfo from './module/user/Cart/ShippingInfo';
 import EsewaSuccess from './module/user/Cart/esewa/EsewaSuccess.jsx';
 import EsewaFailure from './module/user/Cart/esewa/EsewaFailure.jsx';
 import OrderDetails from './module/user/Orders/OrderDetails.jsx';
+import Contact from './module/Contact/Contact.jsx';
+import About from './module/About/About.jsx';
 
 
 
@@ -31,7 +33,9 @@ import OrderDetails from './module/user/Orders/OrderDetails.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
-      <Route path='' element={<HomePage/>}/>
+      <Route path='home' element={<HomePage/>}/>
+      <Route path='contact' element={<Contact/>}/>
+      <Route path='about' element={<About/>}/>
       <Route path='signup' element={<HandleSignUpLogin><Signup/></HandleSignUpLogin>}/>
       <Route path='login' element={<HandleSignUpLogin><Login/></HandleSignUpLogin>}/>
       <Route path='forgetpassword' element={<ForgetPassword/>}/>
