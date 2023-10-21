@@ -1,8 +1,16 @@
-# React + Vite
+# Frontend ecommerce app
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Setting up project locally
+ Install dependencies
 
-Currently, two official plugins are available:
+    npm install
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Create a .env file on root and paste below command
+    
+    VITE_API_BACKEND = https://ecommbackend-production.up.railway.app/api/v1
+
+## Setting Admin account
+
+email: test@gmail.com
+
+password: 123456 
