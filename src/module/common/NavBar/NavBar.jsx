@@ -8,7 +8,7 @@ import { OrderFromBackend } from '../../context/OrderFromBackendContext';
 const menuItems = [
   {
     name: 'Home',
-    href: '/home',
+    href: '',
   },
   {
     name: 'About',
