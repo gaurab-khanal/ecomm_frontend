@@ -33,7 +33,7 @@ import About from './module/About/About.jsx';
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
-      <Route path='home' element={<HomePage/>}/>
+      <Route path='' element={<HomePage/>}/>
       <Route path='contact' element={<Contact/>}/>
       <Route path='about' element={<About/>}/>
       <Route path='signup' element={<HandleSignUpLogin><Signup/></HandleSignUpLogin>}/>
