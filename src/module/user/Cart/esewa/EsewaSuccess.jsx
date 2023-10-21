@@ -15,6 +15,7 @@ const EsewaSuccess = () => {
   const navigate = useNavigate();
 
   const gotoOrderDetails = ()=>{
+    localStorage.removeItem("cart");
     navigate(`/users/orders/${oid}`)
   }
 

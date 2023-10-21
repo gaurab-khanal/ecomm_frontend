@@ -91,7 +91,6 @@ const ShippingInfo = () => {
             .then((res) => {
                 esewaCall(res.data.order)
                 console.log(res.data);
-                localStorage.removeItem("cart");
                 orderSuccess()
                 getMyOrders();
             }).catch(err => {
