@@ -6,6 +6,7 @@ import { object, string, ref, mixed } from 'yup';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from "../../common/loadingSpinner.jsx";
 
 const apiURL = import.meta.env.VITE_API_BACKEND;
 
@@ -13,6 +14,7 @@ export function Signup({ setShowModel = undefined }) {
 
   const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
   // for admin add user
   const addSuccess = () => {
@@ -40,9 +42,10 @@ export function Signup({ setShowModel = undefined }) {
       confirmPassword: '',
       photo: ''
     },
-    onSubmit: (data) => {
+    async onSubmit: (data) => {
 
       const formData = new FormData();
+      setLoading(true)
 
      if(data.photo){
       formData.append('photo', data.photo)
@@ -53,8 +56,9 @@ export function Signup({ setShowModel = undefined }) {
       formData.append('password', data.password);
       formData.append('confirmPassword', data.confirmPassword);
 
-
-      signUpApiCall(formData);
+      
+      await signUpApiCall(formData);
+      setLoading(false)
     }
   })
 
@@ -235,7 +239,10 @@ export function Signup({ setShowModel = undefined }) {
                   type="submit"
                   className="inline-flex w-full items-center justify-center rounded-md bg-black px-3.5 py-2.5 font-semibold leading-7 text-white hover:bg-black/80"
                 >
-                  Create Account <ArrowRight className="ml-2" size={16} />
+                  {
+                    loading ? <Loader/>: <>Create Account <ArrowRight className="ml-2" size={16} /></>
+                  }
+                  
                 </button>
               </div>
             </div>
