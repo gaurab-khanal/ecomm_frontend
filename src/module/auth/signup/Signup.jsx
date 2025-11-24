@@ -42,7 +42,7 @@ export function Signup({ setShowModel = undefined }) {
       confirmPassword: '',
       photo: ''
     },
-    async onSubmit: (data) => {
+    onSubmit: async (data) => {
 
       const formData = new FormData();
       setLoading(true)
