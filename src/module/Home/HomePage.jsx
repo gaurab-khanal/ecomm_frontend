@@ -64,19 +64,6 @@ const HomePage = () => {
             {product.description}
             </p>
     
-            
-            <div className="mt-5 flex items-center space-x-2">
-              <span className="block text-sm font-semibold">Size : </span>
-              <span className="block cursor-pointer rounded-md border border-gray-300 p-1 px-2 text-xs font-medium">
-                8 UK
-              </span>
-              <span className="block cursor-pointer rounded-md border border-gray-300 p-1 px-2 text-xs font-medium">
-                9 UK
-              </span>
-              <span className="block cursor-pointer rounded-md border border-gray-300 p-1 px-2 text-xs font-medium">
-                10 UK
-              </span>
-            </div>
             <div className="mt-5 flex items-center space-x-2">
               <span className="block text-sm font-semibold">Prize : </span>
               <span className="block cursor-pointer rounded-md border border-gray-300 p-1 px-2 text-xs font-medium">
